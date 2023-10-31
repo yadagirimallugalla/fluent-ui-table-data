@@ -5,8 +5,8 @@
   "dependencies": {
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
-    "@fluentui/react": "^8.112.4",
-    "@fluentui/react-components": "^9.37.0",
+    "@fluentui/react": "^8.22.3",
+    "@fluentui/react-components": "^9.20.0",
     "@mui/material": "^5.14.15",
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",

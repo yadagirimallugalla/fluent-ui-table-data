@@ -12,8 +12,9 @@ import {
   makeStyles,
 } from "@fluentui/react-components";
 import { DatePicker } from "@fluentui/react";
-
 import { TablePagination, Stack } from "@mui/material";
+import CommandBarPage from "./CommandBarPage";
+import { fetchEmployeesData } from "./APIsLogic";
 
 const useStyles = makeStyles({
   root: {
@@ -37,17 +38,14 @@ export default function TableData() {
   const [employees, setEmployees] = useState([]);
   const [currentPage, setCurrentPage] = useState(0);
   const [recordsPerPage, setRecordsPerPage] = useState(defaultRecordPerPage);
+  const [selectedCellData, setSelectedCellData] = useState(null);
 
-  const EMPLOYEES_URL = "https://dummyjson.com/users?limit=100";
   useEffect(() => {
     const fetchEmployees = async () => {
       try {
-        fetch(EMPLOYEES_URL)
-          .then((response) => response.json())
-          .then((data) => {
-            setEmployees(data.users);
-            console.log("Users Data:", data.users);
-          });
+        const employeesData = await fetchEmployeesData();
+        setEmployees(employeesData);
+        console.log("Users Data:", employeesData);
       } catch (err) {
         console.error("Error Fetching Employees Data: ", err);
       }
@@ -136,6 +134,8 @@ export default function TableData() {
   const styles = useStyles();
   return (
     <div className={styles.root}>
+      <CommandBarPage selectedCellData={selectedCellData} />
+
       <Stack className={styles.container}>
         <DataGrid
           items={displyedEmployees}
@@ -145,7 +145,19 @@ export default function TableData() {
           getRowId={(item) => item.id}
           resizableColumns={true}
           focusMode="composite"
+          onSelect={(selectedItems) => {
+            console.log("selectedItems", selectedItems);
+
+            if (selectedItems.length === 1) {
+              setSelectedCellData(selectedItems[0]);
+            } else {
+              setSelectedCellData(null);
+            }
+          }}
           columnSizingOptions={columnSizingOptions}
+          onSelectionChange={(newSelection) => {
+            console.log("New Selection:", newSelection);
+          }}
         >
           <DataGridHeader
             style={{

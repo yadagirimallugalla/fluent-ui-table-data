@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Grid, Button } from "@mui/material";
 import {
   DatePicker,
@@ -24,42 +24,142 @@ const bloodGroupOptions = [
   { key: "abNegative", text: "AB-" },
 ];
 
-export default function AddUserForm({ onClose }) {
+export default function AddUserForm({ onClose, editMode, cellData }) {
+  const [formData, setFormData] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    age: "",
+    phoneNumber: "",
+    dateOfBirth: "",
+    gender: null,
+    bloodGroup: null,
+  });
+
+  useEffect(() => {
+    if (editMode && cellData) {
+      setFormData({
+        firstName: cellData.firstName,
+        lastName: cellData.lastName,
+        email: cellData.email,
+        age: cellData.age,
+        phoneNumber: cellData.phone,
+        dateOfBirth: cellData.birthDate,
+        gender: cellData.gender,
+        bloodGroup: cellData.bloodGroup,
+      });
+    }
+  }, [editMode, cellData]);
+
+  const handleSubmit = () => {
+    const postBody = {
+      firstName: formData.firstName,
+      lastName: formData.lastName,
+      age: formData.age,
+      gender: formData.gender,
+      email: formData.email,
+      phone: formData.phone,
+      birthDate: formData.birthDate,
+      bloodGroup: formData.bloodGroup,
+    };
+
+    const API_URL = editMode
+      ? `https://dummyjson.com/users/${cellData.id}`
+      : "https://dummyjson.com/users/add";
+
+    try {
+      fetch(API_URL, {
+        method: editMode ? "PUT" : "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(postBody),
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          console.log(data);
+          onClose();
+        });
+    } catch (error) {
+      console.error("Error creating/updating the user: ", error);
+    }
+  };
+
+  const handleInputChange = (field, value) => {
+    setFormData({ ...formData, [field]: value });
+  };
+
   const handleCancel = () => {
     onClose();
   };
 
   return (
-    <Stack>
+    <Stack styles={{ childrenGap: 4 }}>
       <Grid container spacing={3}>
         <Grid item sx={12} sm={6} lb={3}>
-          <TextField label="First Name" />
+          <TextField
+            label="First Name"
+            value={formData.firstName}
+            onChange={(e) => handleInputChange("firstName", e.target.value)}
+          />
         </Grid>
 
         <Grid item sx={12} sm={6} lb={3}>
-          <TextField label="Last Name" />
+          <TextField
+            label="Last Name"
+            value={formData.lastName}
+            onChange={(e) => handleInputChange("lastName", e.target.value)}
+          />
         </Grid>
 
         <Grid item sx={12} sm={6} lb={3}>
-          <TextField label="Email ID" />
+          <TextField
+            label="Email ID"
+            value={formData.email}
+            onChange={(e) => handleInputChange("email", e.target.value)}
+          />
         </Grid>
 
         <Grid item sx={12} sm={6} lb={3}>
-          <TextField label="Age" />
+          <TextField
+            label="Age"
+            value={formData.age}
+            onChange={(e) => handleInputChange("age", e.target.value)}
+          />
         </Grid>
 
         <Grid item sx={12} sm={6} lb={3}>
-          <TextField label="Phone Number" />
+          <TextField
+            label="Phone Number"
+            value={formData.phone}
+            onChange={(e) => handleInputChange("phoneNumber", e.target.value)}
+          />
         </Grid>
         <Grid item sx={12} sm={6} lb={3}>
-          <DatePicker label="Date of Birth" />
+          <TextField
+            label="Date of Birth"
+            value={formData.birthDate}
+            onChange={(e) => handleInputChange("dateOfBirth", e.target.value)}
+          />
         </Grid>
 
         <Grid item sx={12} sm={6} lb={3}>
-          <Dropdown label="Gender" options={genderOptions} />
+          <Dropdown
+            label="Gender"
+            options={genderOptions}
+            value={formData.gender}
+            selectedKey={formData.gender}
+            onChange={(e, option) => handleInputChange("gender", option.key)}
+          />
         </Grid>
         <Grid item sx={12} sm={6} lb={3}>
-          <Dropdown label="Blood Group" options={bloodGroupOptions} />
+          <Dropdown
+            label="Blood Group"
+            value={formData.bloodGroup}
+            options={bloodGroupOptions}
+            selectedKey={formData.bloodGroup}
+            onChange={(e, option) =>
+              handleInputChange("bloodGroup", option.key)
+            }
+          />
         </Grid>
       </Grid>
       <Stack
@@ -75,7 +175,7 @@ export default function AddUserForm({ onClose }) {
         <Button variant="contained" color="error" onClick={handleCancel}>
           Cancel
         </Button>
-        <Button variant="contained" color="success">
+        <Button variant="contained" color="success" onClick={handleSubmit}>
           Save
         </Button>
       </Stack>

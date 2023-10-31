@@ -8,8 +8,6 @@ function App() {
   initializeIcons();
   return (
     <div>
-      {/* <AddUserForm /> */}
-      <CommandBarPage />
       <TableData />
     </div>
   );
