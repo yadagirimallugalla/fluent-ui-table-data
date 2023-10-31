@@ -18,6 +18,7 @@ import { TablePagination, Stack } from "@mui/material";
 const useStyles = makeStyles({
   root: {
     minHeight: "100vh",
+    display: "flex",
   },
   container: {
     flex: 1,
