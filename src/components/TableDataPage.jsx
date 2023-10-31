@@ -21,7 +21,7 @@ const useStyles = makeStyles({
   },
   container: {
     flex: 1,
-    overflowX: "auto",
+    overflow: "auto",
   },
   pagination: {
     display: "flex",
@@ -126,8 +126,10 @@ export default function TableData() {
     }),
   ];
   const columnSizingOptions = {
+    id: { defaultWidth: 100 },
+    age: { defaultWidth: 100 },
     email: {
-      minWidth: 200,
+      defaultWidth: 250,
     },
   };
 

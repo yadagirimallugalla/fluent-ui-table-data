@@ -1,6 +1,28 @@
 import React, { useState } from "react";
-import { Grid, TextField, Button } from "@mui/material";
-import { DatePicker, Stack } from "@fluentui/react";
+import { Grid, Button } from "@mui/material";
+import {
+  DatePicker,
+  Stack,
+  TextField,
+  MaskedTextField,
+  Dropdown,
+} from "@fluentui/react";
+
+const genderOptions = [
+  { key: "male", text: "Male" },
+  { key: "female", text: "Female" },
+  { key: "others", text: "Others" },
+];
+const bloodGroupOptions = [
+  { key: "oPositive", text: "O+" },
+  { key: "oNegative", text: "O-" },
+  { key: "aPositive", text: "A+" },
+  { key: "aNegative", text: "A-" },
+  { key: "bPositive", text: "B+" },
+  { key: "bNegative", text: "B-" },
+  { key: "abPositive", text: "AB+" },
+  { key: "abNegative", text: "AB-" },
+];
 
 export default function AddUserForm({ onClose }) {
   const handleCancel = () => {
@@ -11,30 +33,33 @@ export default function AddUserForm({ onClose }) {
     <Stack>
       <Grid container spacing={3}>
         <Grid item sx={12} sm={6} lb={3}>
-          <TextField label="First Name" variant="outlined" />
+          <TextField label="First Name" />
         </Grid>
 
         <Grid item sx={12} sm={6} lb={3}>
-          <TextField label="Last Name" variant="outlined" />
+          <TextField label="Last Name" />
         </Grid>
 
         <Grid item sx={12} sm={6} lb={3}>
-          <TextField label="Email ID" variant="outlined" />
+          <TextField label="Email ID" />
         </Grid>
 
         <Grid item sx={12} sm={6} lb={3}>
-          <TextField label="Age" variant="outlined" />
+          <TextField label="Age" />
         </Grid>
 
         <Grid item sx={12} sm={6} lb={3}>
-          <TextField label="Phone Number" variant="outlined" />
+          <TextField label="Phone Number" />
         </Grid>
         <Grid item sx={12} sm={6} lb={3}>
-          <TextField label="Date of Birth" />
+          <DatePicker label="Date of Birth" />
         </Grid>
 
-        <Grid item>
-          <TextField label="Gender" variant="outlined" />
+        <Grid item sx={12} sm={6} lb={3}>
+          <Dropdown label="Gender" options={genderOptions} />
+        </Grid>
+        <Grid item sx={12} sm={6} lb={3}>
+          <Dropdown label="Blood Group" options={bloodGroupOptions} />
         </Grid>
       </Grid>
       <Stack
