@@ -116,6 +116,14 @@ export default function TableData() {
       renderHeaderCell: () => "Date of Birth",
       renderCell: (item) => <TableCellLayout>{item.birthDate}</TableCellLayout>,
     }),
+    createTableColumn({
+      columnId: "bloodGroup",
+      compare: (a, b) => a.bloodGroup.localeCompare(b.bloodGroup),
+      renderHeaderCell: () => "Blood Group",
+      renderCell: (item) => (
+        <TableCellLayout>{item.bloodGroup}</TableCellLayout>
+      ),
+    }),
   ];
   const columnSizingOptions = {
     email: {
