@@ -8,8 +8,6 @@ export default function CommandBarPage({ selectedCellData }) {
   const [isEditMode, setIsEditMode] = useState(false);
 
   const showFormHandler = () => {
-    console.log("showFormHandler triggered");
-
     setShowForm(true);
     setIsEditMode(false);
   };
@@ -19,10 +17,7 @@ export default function CommandBarPage({ selectedCellData }) {
   };
 
   const editFormHandler = () => {
-    console.log("editFormHandler triggered");
-
     if (selectedCellData) {
-      console.log("Selected User Data:", selectedCellData); // Log the selected data
       setShowForm(true);
       setIsEditMode(true);
     }
@@ -30,7 +25,7 @@ export default function CommandBarPage({ selectedCellData }) {
 
   const deleteFormHandler = () => {
     if (selectedCellData) {
-      const userId = selectedCellData.id;
+      const userId = selectedCellData;
       deleteUser(userId);
     }
   };

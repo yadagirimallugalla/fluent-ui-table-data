@@ -14,14 +14,14 @@ const genderOptions = [
   { key: "others", text: "Others" },
 ];
 const bloodGroupOptions = [
-  { key: "oPositive", text: "O+" },
-  { key: "oNegative", text: "O-" },
-  { key: "aPositive", text: "A+" },
-  { key: "aNegative", text: "A-" },
-  { key: "bPositive", text: "B+" },
-  { key: "bNegative", text: "B-" },
-  { key: "abPositive", text: "AB+" },
-  { key: "abNegative", text: "AB-" },
+  { key: "O+", text: "O+" },
+  { key: "O-", text: "O-" },
+  { key: "A+", text: "A+" },
+  { key: "A-", text: "A-" },
+  { key: "B+", text: "B+" },
+  { key: "B-", text: "B-" },
+  { key: "AB+", text: "AB+" },
+  { key: "AB-", text: "AB-" },
 ];
 
 export default function AddUserForm({ onClose, editMode, cellData }) {
@@ -30,24 +30,38 @@ export default function AddUserForm({ onClose, editMode, cellData }) {
     lastName: "",
     email: "",
     age: "",
-    phoneNumber: "",
-    dateOfBirth: "",
+    phone: "",
+    birthDate: "",
     gender: null,
     bloodGroup: null,
   });
+  console.log("editMode", editMode);
+  console.log("cellData", cellData); // here cell id will be there
+
+  const loadUserData = (id) => {
+    fetch(`https://dummyjson.com/users/${id}`)
+      .then((response) => response.json())
+      .then((data) => {
+        setFormData({
+          firstName: data.firstName || "",
+          lastName: data.lastName || "",
+          email: data.email || "",
+          age: data.age || "",
+          phone: data.phone || "",
+          birthDate: data.birthDate || "",
+          gender: data.gender || null,
+          bloodGroup: data.bloodGroup || null,
+        });
+        console.log(data);
+      })
+      .catch((error) => {
+        console.error("Error fetching user data: ", error);
+      });
+  };
 
   useEffect(() => {
     if (editMode && cellData) {
-      setFormData({
-        firstName: cellData.firstName,
-        lastName: cellData.lastName,
-        email: cellData.email,
-        age: cellData.age,
-        phoneNumber: cellData.phone,
-        dateOfBirth: cellData.birthDate,
-        gender: cellData.gender,
-        bloodGroup: cellData.bloodGroup,
-      });
+      loadUserData(cellData);
     }
   }, [editMode, cellData]);
 
@@ -64,7 +78,7 @@ export default function AddUserForm({ onClose, editMode, cellData }) {
     };
 
     const API_URL = editMode
-      ? `https://dummyjson.com/users/${cellData.id}`
+      ? `https://dummyjson.com/users/${cellData}`
       : "https://dummyjson.com/users/add";
 
     try {
@@ -130,14 +144,14 @@ export default function AddUserForm({ onClose, editMode, cellData }) {
           <TextField
             label="Phone Number"
             value={formData.phone}
-            onChange={(e) => handleInputChange("phoneNumber", e.target.value)}
+            onChange={(e) => handleInputChange("phone", e.target.value)}
           />
         </Grid>
         <Grid item sx={12} sm={6} lb={3}>
           <TextField
             label="Date of Birth"
             value={formData.birthDate}
-            onChange={(e) => handleInputChange("dateOfBirth", e.target.value)}
+            onChange={(e) => handleInputChange("birthDate", e.target.value)}
           />
         </Grid>
 

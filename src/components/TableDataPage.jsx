@@ -22,7 +22,7 @@ const useStyles = makeStyles({
   },
   container: {
     flex: 1,
-    overflow: "auto",
+    overflowX: "auto",
   },
   pagination: {
     display: "flex",
@@ -138,33 +138,35 @@ export default function TableData() {
 
       <Stack className={styles.container}>
         <DataGrid
+          as="table"
           items={displyedEmployees}
           columns={columns}
           sortable
           selectionMode="multiselect"
           getRowId={(item) => item.id}
           resizableColumns={true}
+          onSelectionChange={(e, data) => {
+            let value = Array.from(data.selectedItems);
+            setSelectedCellData(value[0]);
+          }}
           focusMode="composite"
-          onSelect={(selectedItems) => {
-            console.log("selectedItems", selectedItems);
+          // onSelectionChange={(selectedItems) => {
+          //   console.log("selectedItems", selectedItems.target);
 
-            if (selectedItems.length === 1) {
-              setSelectedCellData(selectedItems[0]);
-            } else {
-              setSelectedCellData(null);
-            }
-          }}
+          //   if (selectedItems.length === 1) {
+          //     setSelectedCellData(selectedItems[0]);
+          //   } else {
+          //     setSelectedCellData(null);
+          //   }
+          // }}
           columnSizingOptions={columnSizingOptions}
-          onSelectionChange={(newSelection) => {
-            console.log("New Selection:", newSelection);
-          }}
         >
           <DataGridHeader
             style={{
               backgroundColor: tokens.colorNeutralBackground1Pressed,
             }}
           >
-            <DataGridRow>
+            <DataGridRow selectionCell={{ "aria-label": "Select all rows" }}>
               {({ renderHeaderCell }) => (
                 <DataGridHeaderCell>{renderHeaderCell()}</DataGridHeaderCell>
               )}
@@ -172,7 +174,10 @@ export default function TableData() {
           </DataGridHeader>
           <DataGridBody>
             {({ item, rowId }) => (
-              <DataGridRow key={rowId}>
+              <DataGridRow
+                key={rowId}
+                selectionCell={{ "aria-label": "Select row" }}
+              >
                 {({ renderCell }) => (
                   <DataGridCell>{renderCell(item)}</DataGridCell>
                 )}
