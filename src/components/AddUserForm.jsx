@@ -1,12 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Grid, Button } from "@mui/material";
-import {
-  DatePicker,
-  Stack,
-  TextField,
-  MaskedTextField,
-  Dropdown,
-} from "@fluentui/react";
+import { Stack, TextField, Dropdown } from "@fluentui/react";
 
 const genderOptions = [
   { key: "male", text: "Male" },
@@ -35,8 +29,6 @@ export default function AddUserForm({ onClose, editMode, cellData }) {
     gender: null,
     bloodGroup: null,
   });
-  console.log("editMode", editMode);
-  console.log("cellData", cellData); // here cell id will be there
 
   const loadUserData = (id) => {
     fetch(`https://dummyjson.com/users/${id}`)
@@ -108,7 +100,7 @@ export default function AddUserForm({ onClose, editMode, cellData }) {
   return (
     <Stack styles={{ childrenGap: 4 }}>
       <Grid container spacing={3}>
-        <Grid item sx={12} sm={6} lb={3}>
+        <Grid item xs={12} sm={6} lg={6}>
           <TextField
             label="First Name"
             value={formData.firstName}
@@ -116,7 +108,7 @@ export default function AddUserForm({ onClose, editMode, cellData }) {
           />
         </Grid>
 
-        <Grid item sx={12} sm={6} lb={3}>
+        <Grid item xs={12} sm={6} lg={6}>
           <TextField
             label="Last Name"
             value={formData.lastName}
@@ -124,7 +116,7 @@ export default function AddUserForm({ onClose, editMode, cellData }) {
           />
         </Grid>
 
-        <Grid item sx={12} sm={6} lb={3}>
+        <Grid item xs={12} sm={6} lg={6}>
           <TextField
             label="Email ID"
             value={formData.email}
@@ -132,7 +124,7 @@ export default function AddUserForm({ onClose, editMode, cellData }) {
           />
         </Grid>
 
-        <Grid item sx={12} sm={6} lb={3}>
+        <Grid item xs={12} sm={6} lg={6}>
           <TextField
             label="Age"
             value={formData.age}
@@ -140,14 +132,14 @@ export default function AddUserForm({ onClose, editMode, cellData }) {
           />
         </Grid>
 
-        <Grid item sx={12} sm={6} lb={3}>
+        <Grid item xs={12} sm={6} lg={6}>
           <TextField
             label="Phone Number"
             value={formData.phone}
             onChange={(e) => handleInputChange("phone", e.target.value)}
           />
         </Grid>
-        <Grid item sx={12} sm={6} lb={3}>
+        <Grid item xs={12} sm={6} lg={6}>
           <TextField
             label="Date of Birth"
             value={formData.birthDate}
@@ -155,7 +147,7 @@ export default function AddUserForm({ onClose, editMode, cellData }) {
           />
         </Grid>
 
-        <Grid item sx={12} sm={6} lb={3}>
+        <Grid item xs={12} sm={6} lg={6}>
           <Dropdown
             label="Gender"
             options={genderOptions}
@@ -164,7 +156,7 @@ export default function AddUserForm({ onClose, editMode, cellData }) {
             onChange={(e, option) => handleInputChange("gender", option.key)}
           />
         </Grid>
-        <Grid item sx={12} sm={6} lb={3}>
+        <Grid item xs={12} sm={6} lg={6}>
           <Dropdown
             label="Blood Group"
             value={formData.bloodGroup}
@@ -181,7 +173,7 @@ export default function AddUserForm({ onClose, editMode, cellData }) {
         style={{
           display: "flex",
           flexDirection: "row",
-          justifyContent: "space-between",
+          justifyContent: "space-around",
           alignItems: "center",
           margin: " 1em 0",
         }}

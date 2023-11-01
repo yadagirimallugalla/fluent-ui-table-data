@@ -27,6 +27,7 @@ export default function CommandBarPage({ selectedCellData }) {
     if (selectedCellData) {
       const userId = selectedCellData;
       deleteUser(userId);
+      alert("User deleted successfully");
     }
   };
   const items = [
